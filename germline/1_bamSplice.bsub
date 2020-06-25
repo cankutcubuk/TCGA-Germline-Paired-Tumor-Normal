@@ -1,0 +1,26 @@
+#!/bin/bash 
+#BSUB -J bamSplice
+#BSUB -P DGERS....
+#BSUB -u ...@icr.ac.uk
+#BSUB -q normal 
+#BSUB -o /home/ccubuk/gdc/logfiles/%J.out 
+#BSUB -e /home/ccubuk/gdc/logfiles/%J.err 
+#BSUB -n 2
+#BSUB -R "rusage[mem=2000]"
+#BSUB -v 2000
+
+# usage:  bsub < bamSplice.bsub
+
+genes="gencode=ALK&gencode=APC&gencode=ATM&gencode=BAP1&gencode=BARD1&gencode=BMPR1A&gencode=BRCA1&gencode=BRCA2&gencode=BRIP1&gencode=CDH1&gencode=CDK4&gencode=CDKN2A&gencode=CHEK2&gencode=DICER1&gencode=ERCC3&gencode=FH&gencode=FLCN&gencode=HOXB13&gencode=HRAS&gencode=KIT&gencode=KRAS&gencode=MEN1&gencode=MET&gencode=MITF&gencode=MLH1&gencode=MSH2&gencode=MSH6&gencode=MUTYH&gencode=NBN&gencode=NF1&gencode=NF2&gencode=NRAS&gencode=PALB2&gencode=PDGFRA&gencode=PMS2&gencode=POLE&gencode=PTCH1&gencode=PTEN&gencode=RAD50&gencode=RAD51B&gencode=RAD51C&gencode=RAD51D&gencode=RB1&gencode=RET&gencode=RUNX1&gencode=SDHA&gencode=SDHAF2&gencode=SDHB&gencode=SDHC&gencode=SDHD&gencode=SMAD3&gencode=SMAD4&gencode=SMARCA4&gencode=SMARCB1&gencode=STK11&gencode=SUFU&gencode=TERT&gencode=TGFBR1&gencode=TGFBR2&gencode=TMEM127&gencode=TP53&gencode=TSC1&gencode=TSC2&gencode=VHL&gencode=WT1"
+
+token=$(</home/../gdc-user-token........txt)
+
+while read -r line;
+do
+
+curl --header "X-Auth-Token: $token" 'https://api.gdc.cancer.gov/slicing/view/'$line'?'$genes \
+       --output /mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/bam_splice/allbams/$line.bam
+
+done < /mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/files/sample_all.txt 
+
+

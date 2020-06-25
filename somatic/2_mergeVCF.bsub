@@ -1,0 +1,14 @@
+#!/bin/bash
+#BSUB -J mergeVCF
+#BSUB -P DGERS....
+#BSUB -u ...@icr.ac.uk
+#BSUB -q normal
+#BSUB -o /home/ccubuk/gdc/logfiles/somatic/mergeVCF/%J_UVM.out
+#BSUB -e /home/ccubuk/gdc/logfiles/somatic/mergeVCF/%J_UVM.err
+#BSUB -n 4
+#BSUB -R "rusage[mem=2000]"
+#BSUB -v 48000
+
+vcfFolder="/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/bam_splice/tidy/TCGA_UVM/"
+
+/home/ccubuk/gdc/scripts/mergeVCF.sh $vcfFolder "vcftools"

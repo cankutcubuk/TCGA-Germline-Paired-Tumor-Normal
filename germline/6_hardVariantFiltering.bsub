@@ -1,0 +1,16 @@
+#!/bin/bash
+#BSUB -J filtering
+#BSUB -P DGERS....
+#BSUB -u ...@icr.ac.uk
+#BSUB -q normal
+#BSUB -o /home/ccubuk/gdc/logfiles/filtering/%J_ACC.out
+#BSUB -e /home/ccubuk/gdc/logfiles/filtering/%J_ACC.err
+#BSUB -n 2
+#BSUB -R "rusage[mem=2000]"
+#BSUB -v 32000
+
+cancer="TCGA_ACC"
+cohort="normals_$cancer" 
+outputDir="/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/bam_splice/tidy/$cancer"
+
+/home/ccubuk/gdc/scripts/hardVariantFiltering.sh $cohort $outputDir "nt/scratch/DGE/MOPOPGEN/ccubuk/gdc/files/GRCh38.d1.vd1.fa" "/home/ccubuk/.vep/fasta/Homo_sapiens.GRCh38.dna.primary_assembly.fa"

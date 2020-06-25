@@ -1,0 +1,18 @@
+#!/bin/bash
+#BSUB -J genotyping
+#BSUB -P DGERS....
+#BSUB -u ...@icr.ac.uk
+#BSUB -q normal
+#BSUB -o /home/ccubuk/gdc/logfiles/genotype/%J_BRCA.out
+#BSUB -e /home/ccubuk/gdc/logfiles/genotype/%J_BRCA.err
+#BSUB -n 8
+#BSUB -R "rusage[mem=2000]"
+#BSUB -v 96000
+#BSUB -W 168:00
+
+# The GenomicsDB will be under ../TCGA_BRCA/germline/GenomicsDB/
+cancer="TCGA_BRCA"
+cohort="normals_$cancer" 
+outputDir="/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/bam_splice/tidy/$cancer"
+
+./genotypeGVCF.sh $cohort $outputDir  "/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/files/GRCh38.d1.vd1.fa"

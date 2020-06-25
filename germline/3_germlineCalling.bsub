@@ -1,0 +1,25 @@
+#!/bin/bash
+#BSUB -J germlineCalls
+#BSUB -P DGERS....
+#BSUB -u ...@icr.ac.uk
+#BSUB -q normal
+#BSUB -o /home/ccubuk/gdc/logfiles/%J.ACC.out
+#BSUB -e /home/ccubuk/gdc/logfiles/%J.ACC.err
+#BSUB -n 4
+#BSUB -R "rusage[mem=2000]"
+#BSUB -v 16000
+#BSUB -W 100:00
+
+# This is the work folder. The inputs will be collected from ../TCGA_ACC/Normals/*bam
+# And the results will be saved under ../TCGA/germline/
+folder="/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/bam_splice/tidy/TCGA_ACC/"
+
+while read -r line;
+do
+
+./germlineCalling.sh $line "Normals" $folder "/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/files/GRCh38.d1.vd1.fa" "/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/files/intervals_65genes.bed"
+
+echo "Done ... $line"
+
+# ls -A1  "$folder/Normals/" | grep bam > "$folder/allNormals.txt"
+done <  "$folder/allNormals.txt"

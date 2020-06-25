@@ -1,0 +1,16 @@
+#!/bin/bash
+#BSUB -J consolidateGVCF
+#BSUB -P DGERS....
+#BSUB -u ...@icr.ac.uk
+#BSUB -q normal
+#BSUB -o /home/ccubuk/gdc/logfiles/%J_ACC.out
+#BSUB -e /home/ccubuk/gdc/logfiles/%J_ACC.err
+#BSUB -n 4
+#BSUB -R "rusage[mem=2000]"
+#BSUB -v 48000
+
+# The work folder where the vcfs are stored
+# The vcf files will be found under ../TCGA_ACC/germline/
+normalsvcf="/mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/bam_splice/tidy/TCGA_ACC/"
+
+./consolidateGVCF.sh $normalsvcf /mnt/scratch/DGE/MOPOPGEN/ccubuk/gdc/files/intervals_65genes.bed
